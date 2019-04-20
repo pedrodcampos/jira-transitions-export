@@ -1,3 +1,11 @@
+# Output directory and files
+exports/*.csv
+# VS Code settings
+.vscode/
+.DS_Store
+
+#environment variabled
+.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -74,6 +82,7 @@ target/
 
 # pyenv
 .python-version
+.venv/
 
 # celery beat schedule file
 celerybeat-schedule
