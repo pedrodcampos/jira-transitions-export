@@ -1,37 +1,21 @@
-from jira import JIRA
-from config import jira_config
-from dateutil import parser
-from os import path
-import csv
+import argparse
+from changelogs_export import export
+from config import build_jira_config
 
-jira = JIRA(**jira_config)
+parser = argparse.ArgumentParser(
+    prog="JIRA CHANGELOG EXPORTER",
+    description="Exports all status change history for all tickets in a jql"
+)
 
-tickets = jira.search(jql='created >= startOfDay()',
-                      expand='changelog', fields='summary,status,project', max_results=500)
+parser.add_argument("--jql", help="jql string")
+parser.add_argument("-f", "--filename", help="Custom export file name")
+parser.add_argument("-d", "--domain", help="JIRA domain")
+parser.add_argument("-u", "--username", help="JIRA domain")
+parser.add_argument("-p", "--password", help="JIRA domain")
 
-changelog = []
-for ticket in tickets:
+args = parser.parse_args()
 
-    for history in ticket['changelog']['histories']:
-        for item in history['items']:
-            if item['field'] == 'status':
-                changelog.append({
-                    'id': history['id'],
-                    'created': parser.parse(history['created']).strftime("%Y-%m-%d %H:%M"),
-                    'author': history['author']['displayName'],
-                    'email': history['author']['emailAddress'],
-                    'ticket_id': ticket['id'],
-                    'project_key': ticket['fields']['project']['key'],
-                    'project_name': ticket['fields']['project']['name'],
-                    'from': item['fromString'],
-                    'to': item['toString']
-                })
+jira_config = build_jira_config(
+    args.domain, args.username, args.password)
 
-if len(changelog) > 0:
-    target_file = path.join(path.curdir, 'exports', 'chagelog.csv')
-
-    with open(target_file, 'w+') as csv_file:
-        writer = csv.DictWriter(csv_file, list(changelog[0].keys()))
-        writer.writeheader()
-        writer.writerows(changelog)
-    print('Done.')
+export(jira_config, args.jql, args.filename)

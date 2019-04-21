@@ -1,7 +1,12 @@
 from os import environ
 
 
-jira_config = {
-    'domain': environ.get('DOMAIN', None),
-    'auth': (environ.get('USERNAME', None), environ.get('PASSWORD', None))
-}
+def build_jira_config(domain=None, username=None, password=None):
+
+    return {"domain": domain if domain else environ.get('DOMAIN', None),
+            "auth": (
+                username
+                if username else environ.get('USERNAME', None),
+                password
+                if password else environ.get('PASSWORD', None))
+            }
