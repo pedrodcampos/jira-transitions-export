@@ -1,5 +1,6 @@
 # Output directory and files
 exports/*.csv
+.config.json
 # VS Code settings
 .vscode/
 .DS_Store

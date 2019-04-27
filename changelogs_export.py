@@ -45,7 +45,7 @@ def map_changelogs(tickets):
                         'created': parser.parse(history['created']).strftime("%Y-%m-%d %H:%M"),
                         'author': history['author']['displayName'],
                         'email': history['author']['emailAddress'],
-                        'ticket_id': ticket['id'],
+                        'ticket_key': ticket['key'],
                         'project_key': ticket['fields']['project']['key'],
                         'project_name': ticket['fields']['project']['name'],
                         'from': item['fromString'],

@@ -18,6 +18,6 @@ Argument |Name| Description
 -p, --password |PASSWORD| JIRA passowrd
 -f, --filename | FILENAME| Custom export file name
 
-Alternatively you can create a copy of `.env.example` file in this repo, rename it to `.env` and provide your domain and credentials.
+Alternatively you can create a copy of `.config.example.json` file in this repo, rename it to `.config.json` and provide your domain and credentials. Be aware that the `.config.json` will be disregarded if you provide credentials or domain as  arguments.
 
 > if you do not provide a jql string, downloading all data may take a while. Be patient. 
